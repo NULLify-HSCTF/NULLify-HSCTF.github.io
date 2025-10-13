@@ -52,17 +52,11 @@ footer::before {content:''; position:absolute; top:50%; left:50%; width:200px; h
 .faq-content.open {max-height:2000px; padding:1.5rem;}
 .faq-content h3 {color:var(--lime-green); margin-top:1rem; font-size:1.3rem;}
 .faq-content p {font-size:1.2rem; margin-bottom:0.8rem;}
-.modal {display:none; position:fixed; z-index:999; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.8); justify-content:center; align-items:center;}
-.modal-content {background:var(--card-bg); padding:2rem; border-radius:15px; max-width:450px; width:90%; position:relative;}
-.modal-content h2 {color:var(--lime-green); margin-bottom:1rem; text-align:center;}
-.modal-content input {width:100%; padding:0.6rem; margin-bottom:1rem; border:none; border-radius:8px; font-size:1.1rem;}
-.modal-content button {width:100%; font-size:1.1rem;}
-.close-modal {position:absolute; top:10px; right:15px; font-size:1.5rem; cursor:pointer; color:var(--lime-green);}
 </style>
 </head>
 <body>
 
-<header id="headerForm">
+<header>
   <h1>Welcome to HSCTF 2026</h1>
   <p>Hosted by NULLify — University of Nebraska Omaha Cybersecurity Club</p>
 </header>
@@ -84,7 +78,7 @@ footer::before {content:''; position:absolute; top:50%; left:50%; width:200px; h
     <div class="card">
       <h2>How to Register</h2>
       <p>Registration will open soon! In the meantime, sign up for our newsletter to get updates and training materials for the competition.</p>
-      <button class="btn" id="openModalBtn">Sign Up</button>
+      <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=xAPQGhOJLkyxIGKu-ItszZAuWPxw01VMj0DkyAPDGGlUMkw5UEY5S0pBMkpDMTFVVVNXSDNJUjJLVi4u" target="_blank" class="btn">Sign Up</a>
     </div>
   </div>
 </section>
@@ -107,20 +101,17 @@ footer::before {content:''; position:absolute; top:50%; left:50%; width:200px; h
   flex-wrap: wrap;
   gap: 1rem;
 }
-
 .gallery-grid img {
   width: calc(25% - 0.75rem);
   height: auto;
   border-radius: 12px;
   transition: transform 0.3s ease, filter 0.3s ease;
 }
-
 .gallery-grid img:hover {
   transform: scale(1.05);
   filter: brightness(1.2);
 }
 </style>
-
 
 <section class="section" id="lastyear">
   <div class="cards-grid">
@@ -137,7 +128,6 @@ footer::before {content:''; position:absolute; top:50%; left:50%; width:200px; h
         <li>Special training challenges for students</li>
         <li>Prizes and recognition for winners</li>
       </ul>
-      <p> <p>
       <p>Sign up for our mailing list above to get all updates as soon as they’re announced!</p>
     </div>
   </div>
@@ -146,16 +136,16 @@ footer::before {content:''; position:absolute; top:50%; left:50%; width:200px; h
 <section class="section">
   <div class="faq-bar" id="faqBar">FAQ <span class="faq-arrow" id="faqArrow">&#9660;</span></div>
   <div class="faq-content" id="faqContent">
-    <h3>I am new to CTFs, should my students particiapte?</h3>
+    <h3>I am new to CTFs, should my students participate?</h3>
     <p>Absolutely, our challenges are tailored to both students new to cybersecurity, and those with some experience.</p>
     <h3>Will food be provided at the event?</h3>
     <p>Yes, breakfast and lunch will be catered to students, as well as snacks!</p>
-    <h3>What month time rame will the CTF be?</h3>
+    <h3>What month timeframe will the CTF be?</h3>
     <p>We are aiming to host HSCTF in Feb 2026.</p>
     <h3>How long will the event be?</h3>
     <p>The event is estimated to be 8 hours, and take place on a Saturday!</p>
     <h3>Will there be prizes?</h3>
-    <p>Yes, all students will received our limited edition swag item, and the top three teams will receieve other prizes.</p>
+    <p>Yes, all students will receive our limited edition swag item, and the top three teams will receive other prizes.</p>
     <h3>How do I stay updated, and register?</h3>
     <p>Subscribe to our mailing list above to get updates regarding registration and training materials!</p>
   </div>
@@ -165,19 +155,6 @@ footer::before {content:''; position:absolute; top:50%; left:50%; width:200px; h
   &copy; 2025 NULLify — University of Nebraska Omaha Cybersecurity Club
 </footer>
 
-<div class="modal" id="newsletterModal">
-  <div class="modal-content">
-    <span class="close-modal" id="closeModal">&times;</span>
-    <h2>Sign Up for Updates</h2>
-    <form id="modalForm" action="https://gagejohnson.dev/submit" method="POST">
-      <input type="text" name="name" placeholder="Your Name" required>
-      <input type="email" name="email" placeholder="Email Address" required>
-      <input type="text" name="school" placeholder="Your School" required>
-      <button type="submit" class="btn">Subscribe</button>
-    </form>
-  </div>
-</div>
-
 <script>
 const faqBar = document.getElementById('faqBar');
 const faqContent = document.getElementById('faqContent');
@@ -186,7 +163,6 @@ faqBar.addEventListener('click', () => {
   faqContent.classList.toggle('open');
   faqArrow.classList.toggle('open');
 });
-
 const sections = document.querySelectorAll('.section');
 const observer = new IntersectionObserver(entries => {
   entries.forEach(entry => {
@@ -194,16 +170,6 @@ const observer = new IntersectionObserver(entries => {
   });
 }, { threshold: 0.1 });
 sections.forEach(section => observer.observe(section));
-
-const modal = document.getElementById('newsletterModal');
-const headerForm = document.getElementById('headerForm');
-const openModalBtn = document.getElementById('openModalBtn');
-const closeModal = document.getElementById('closeModal');
-
-headerForm.addEventListener('click', ()=> modal.style.display='flex');
-openModalBtn.addEventListener('click', ()=> modal.style.display='flex');
-closeModal.addEventListener('click', ()=> modal.style.display='none');
-window.addEventListener('click', e => { if(e.target === modal) modal.style.display='none'; });
 </script>
 
 </body>
