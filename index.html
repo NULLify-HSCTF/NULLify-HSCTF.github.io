@@ -51,7 +51,6 @@ header h1 {
   z-index: 2;
 }
 
-
 /* Theme box */
 .case-brief {
   position: relative;
@@ -93,20 +92,10 @@ header .decor-right {
   pointer-events: none;
   z-index: 1;
   filter: brightness(0) saturate(100%) invert(67%) sepia(85%) saturate(482%) hue-rotate(75deg) brightness(95%) contrast(90%);
-  /*  This combination tints to a lime-green hue matching #32cd32 */
 }
+header .decor-left { left: 3%; transform: translateY(-50%) rotate(-10deg); }
+header .decor-right { right: 3%; transform: translateY(-50%) rotate(10deg); }
 
-header .decor-left {
-  left: 3%;
-  transform: translateY(-50%) rotate(-10deg);
-}
-
-header .decor-right {
-  right: 3%;
-  transform: translateY(-50%) rotate(10deg);
-}
-
-/* Responsive adjustments */
 @media (max-width: 900px) {
   header .decor-left,
   header .decor-right {
@@ -134,11 +123,32 @@ header .decor-right {
 .btn {display:inline-block; background-color:var(--dark-green); color: var(--text-light); padding:0.85rem 1.75rem; border-radius:10px; text-decoration:none; font-weight:bold; margin-top:1rem; transition: background 0.3s ease, box-shadow 0.3s ease; font-size:1.1rem;}
 .btn:hover {background-color:var(--lime-green); color:#121212; box-shadow: var(--hover-glow);}
 
-/* --- GALLERY --- */
-.gallery {display: flex; justify-content: center; flex-wrap: wrap; gap: 1rem; position: relative;}
-.gallery::before {content:''; position:absolute; top:50%; left:50%; width:400px; height:400px; background: url('images/lock_logo.png') no-repeat center center; background-size:contain; opacity:0.04; transform:translate(-50%, -50%); z-index:0;}
-.gallery img {width: 250px; border-radius: 12px; object-fit: cover; transition: transform 0.3s ease, filter 0.3s ease; position: relative; z-index:1;}
-.gallery img:hover {transform: scale(1.05); filter: brightness(1.2);}
+/* --- GALLERY GRID (restored original layout) --- */
+.gallery-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.gallery-grid img {
+  width: calc(25% - 0.75rem); /* 4 per row */
+  height: auto;
+  border-radius: 12px;
+  transition: transform 0.3s ease, filter 0.3s ease;
+  object-fit: cover;
+}
+.gallery-grid img:hover {
+  transform: scale(1.05);
+  filter: brightness(1.2);
+}
+@media (max-width: 900px) {
+  .gallery-grid img { width: calc(50% - 0.75rem); } /* 2 per row on tablets */
+}
+@media (max-width: 600px) {
+  .gallery-grid img { width: 100%; } /* 1 per row on mobile */
+}
+
 #lastyear .cards-grid {display: flex; justify-content: center; flex-wrap: wrap; gap: 2rem;}
 #lastyear .card {flex: 1 1 300px; max-width: 400px;}
 
@@ -194,8 +204,7 @@ footer::before {content:''; position:absolute; top:50%; left:50%; width:200px; h
         <li><strong>Competition Registration:</strong> Use this form to officially register your team for HSCTF 2026.</li>
       </ul>
       <div style="display:flex; flex-wrap:wrap; gap:1rem; margin-top:1rem;">
-        <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=xAPQGhOJLkyxIGKu-ItszZAuWPxw01VMj0DkyAPDGGlUMkw5UEY5S0pBMkpDMTFVVVNXSDNJUjJLVi4u" 
-           target="_blank" class="btn">Newsletter Signup</a>
+        <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=xAPQGhOJLkyxIGKu-ItszZAuWPxw01VMj0DkyAPDGGlUMkw5UEY5S0pBMkpDMTFVVVNXSDNJUjJLVi4u" target="_blank" class="btn">Newsletter Signup</a>
         <a href="https://unomaha.az1.qualtrics.com/jfe/form/SV_bBNZ6wI0xjl8QjY" target="_blank" class="btn">Registration Form</a>
       </div>
     </div>
