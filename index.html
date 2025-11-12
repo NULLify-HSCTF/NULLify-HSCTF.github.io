@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HSCTF 2026 — NULLify</title>
+<title>HSCTF 2026 — NULLify: Digital Detectives</title>
 <style>
 :root {
   --dark-bg: #0f0f0f;
@@ -18,13 +18,107 @@
 }
 * {margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif;}
 body {background: linear-gradient(135deg, #121212, #0a0a0a); color: var(--text-light); line-height: 1.8; font-size:1.1rem; scroll-behavior: smooth;}
-header {position: relative; text-align: center; padding: 3rem 1rem; background-color: #0f0f0f; overflow: hidden; cursor:pointer;}
-header::before {content: ''; position: absolute; top: 50%; left: 50%; width: 300px; height: 300px; background: url('images/lock_logo.png') no-repeat center center; background-size: contain; opacity: 0.08; transform: translate(-50%, -50%) rotate(-15deg); pointer-events: none; z-index: 0;}
-header h1, header p {position: relative; z-index: 1;}
-header h1 {background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size:3.8rem; margin-bottom:0.5rem;}
-header p {font-size:1.4rem; color: var(--text-muted);}
-.banner {background: var(--gradient); color:#121212; text-align:center; padding:1.2rem; font-weight:bold; cursor:pointer; transition: transform 0.2s ease, opacity 0.3s ease; border-radius:12px;}
-.banner:hover {transform:scale(1.02); opacity:0.9;}
+
+/* --- HEADER --- */
+header {
+  position: relative;
+  text-align: center;
+  padding: 3rem 1rem 4rem 1rem;
+  background-color: #0f0f0f;
+  overflow: hidden;
+}
+header::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300px;
+  height: 300px;
+  background: url('images/lock_logo.png') no-repeat center center;
+  background-size: contain;
+  opacity: 0.08;
+  transform: translate(-50%, -50%) rotate(-15deg);
+  pointer-events: none;
+  z-index: 0;
+}
+header h1 { 
+  background: linear-gradient(90deg, #32cd32, #00ffcc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 4rem;
+  text-shadow: 0 0 25px rgba(50,205,50,0.3);
+  letter-spacing: 2px;
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 2;
+}
+
+/* Theme box */
+.case-brief {
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: rgba(20,20,20,0.7);
+  border: 1px solid rgba(50,205,50,0.4);
+  border-radius: 12px;
+  padding: 1.5rem 2rem;
+  box-shadow: 0 0 25px rgba(50,205,50,0.15);
+  backdrop-filter: blur(6px);
+  animation: fadeIn 1.6s ease;
+  z-index: 2;
+}
+.case-brief p {
+  font-size: 1.25rem;
+  line-height: 1.7;
+  color: #ccc;
+  margin-top: 0.7rem;
+}
+.case-brief strong {color: var(--lime-green);}
+.case-brief p:first-of-type {color: #e0e0e0;}
+.case-brief .final-line {
+  color: var(--lime-green);
+  font-weight: bold;
+  margin-top: 1rem;
+  font-size: 1.3rem;
+}
+
+/* Decorative side images (outside the box) */
+header .decor-left,
+header .decor-right {
+  position: absolute;
+  top: 50%;
+  width: 200px;
+  height: auto;
+  opacity: 0.08;
+  transform: translateY(-50%);
+  pointer-events: none;
+  z-index: 1;
+}
+header .decor-left {
+  left: 5%;
+  transform: translateY(-50%) rotate(-10deg);
+}
+header .decor-right {
+  right: 5%;
+  transform: translateY(-50%) rotate(10deg);
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  header .decor-left,
+  header .decor-right {
+    width: 120px;
+    opacity: 0.05;
+  }
+}
+
+/* --- FADE IN ANIMATION --- */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- MAIN SECTIONS --- */
 .section {max-width:1200px; margin:2rem auto; padding:0 1rem; opacity:0; transform:translateY(20px); transition: opacity 0.8s ease, transform 0.8s ease;}
 .section.visible {opacity:1; transform:translateY(0);}
 .cards-grid {display:grid; grid-template-columns:1fr; gap:2rem;}
@@ -36,14 +130,20 @@ header p {font-size:1.4rem; color: var(--text-muted);}
 .card p {font-size:1.2rem; margin-bottom:0.8rem;}
 .btn {display:inline-block; background-color:var(--dark-green); color: var(--text-light); padding:0.85rem 1.75rem; border-radius:10px; text-decoration:none; font-weight:bold; margin-top:1rem; transition: background 0.3s ease, box-shadow 0.3s ease; font-size:1.1rem;}
 .btn:hover {background-color:var(--lime-green); color:#121212; box-shadow: var(--hover-glow);}
+
+/* --- GALLERY --- */
 .gallery {display: flex; justify-content: center; flex-wrap: wrap; gap: 1rem; position: relative;}
 .gallery::before {content:''; position:absolute; top:50%; left:50%; width:400px; height:400px; background: url('images/lock_logo.png') no-repeat center center; background-size:contain; opacity:0.04; transform:translate(-50%, -50%); z-index:0;}
 .gallery img {width: 250px; border-radius: 12px; object-fit: cover; transition: transform 0.3s ease, filter 0.3s ease; position: relative; z-index:1;}
 .gallery img:hover {transform: scale(1.05); filter: brightness(1.2);}
 #lastyear .cards-grid {display: flex; justify-content: center; flex-wrap: wrap; gap: 2rem;}
 #lastyear .card {flex: 1 1 300px; max-width: 400px;}
+
+/* --- FOOTER --- */
 footer {background-color:var(--dark-bg); text-align:center; padding:2rem; color:var(--text-muted); margin-top:2rem; position:relative;}
 footer::before {content:''; position:absolute; top:50%; left:50%; width:200px; height:200px; background:url('images/lock_logo.png') no-repeat center center; background-size:contain; opacity:0.05; transform:translate(-50%,-50%); pointer-events:none; z-index:0;}
+
+/* --- FAQ --- */
 .faq-bar {width:100%; background:var(--gradient); color:#fff; font-weight:bold; font-size:1.5rem; text-align:center; padding:1.5rem; border-radius:12px; cursor:pointer; display:flex; justify-content:center; align-items:center; transition:opacity 0.3s ease, transform 0.2s ease; margin-bottom:1rem;}
 .faq-bar:hover {opacity:0.9; transform:scale(1.02);}
 .faq-arrow {margin-left:10px; transition: transform 0.3s ease;}
@@ -57,8 +157,16 @@ footer::before {content:''; position:absolute; top:50%; left:50%; width:200px; h
 <body>
 
 <header>
-  <h1>Welcome to HSCTF 2026</h1>
-  <p>Hosted by NULLify — University of Nebraska Omaha Cybersecurity Club</p>
+  <h1>HSCTF 2026 — NULLify: Digital Detectives</h1>
+
+  <img src="images/hat.png" alt="Detective Hat" class="decor-left">
+  <img src="images/magglass.png" alt="Magnifying Glass" class="decor-right">
+
+  <div class="case-brief">
+    <p>Welcome to <strong>NULLify’s Digital Detectives</strong>, where every challenge is a new case, and every flag is a crucial clue.</p>
+    <p>You’ve just joined the <strong>Digital Investigations Division</strong>, and something big is unfolding. Across the city, and deep within the network, a string of mysterious cyber incidents has surfaced. It’s your mission to follow the digital trail, uncover hidden evidence, and crack each case before time runs out.</p>
+    <p class="final-line">The truth is out there, can you uncover it?</p>
+  </div>
 </header>
 
 <section class="section" id="nullify">
@@ -71,14 +179,22 @@ footer::before {content:''; position:absolute; top:50%; left:50%; width:200px; h
 
     <div class="card">
       <h2>What is HSCTF?</h2>
-      <p>High School Capture The Flag (HSCTF) is a beginner-friendly CTF competition hosted annually by NULLify! Students compete in teams to solve jeopardy-style cybersecurity challenges.</p>
+      <p>High School Capture The Flag (HSCTF) is a beginner-friendly CTF competition hosted annually by NULLify. Students compete in teams to solve jeopardy-style cybersecurity challenges.</p>
       <p>Students gain hands-on experience with tools and labs at the Peter Kiewit Institute on Scott Campus. Great for anyone interested in cybersecurity or IT!</p>
     </div>
 
     <div class="card">
       <h2>How to Register</h2>
-      <p>Registration will open soon! In the meantime, sign up for our newsletter to get updates and training materials for the competition.</p>
-      <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=xAPQGhOJLkyxIGKu-ItszZAuWPxw01VMj0DkyAPDGGlUMkw5UEY5S0pBMkpDMTFVVVNXSDNJUjJLVi4u" target="_blank" class="btn">Sign Up</a>
+      <p>Registration for HSCTF 2026 will open soon. Students can use the links below to stay informed and sign up once registration is live.</p>
+      <ul style="margin-left: 1.2rem; margin-bottom: 1rem;">
+        <li><strong>Newsletter Signup:</strong> Stay up to date on announcements, practice challenges, and event details before registration opens.</li>
+        <li><strong>Competition Registration:</strong> Once registration opens, use this form to officially register your team for HSCTF 2026.</li>
+      </ul>
+      <div style="display:flex; flex-wrap:wrap; gap:1rem; margin-top:1rem;">
+        <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=xAPQGhOJLkyxIGKu-ItszZAuWPxw01VMj0DkyAPDGGlUMkw5UEY5S0pBMkpDMTFVVVNXSDNJUjJLVi4u" 
+           target="_blank" class="btn">Newsletter Signup</a>
+        <a href="https://test.com" target="_blank" class="btn">Registration Form</a>
+      </div>
     </div>
   </div>
 </section>
@@ -88,43 +204,25 @@ footer::before {content:''; position:absolute; top:50%; left:50%; width:200px; h
     Photos from HSCTF 2025!
   </h2>
   <div class="gallery-grid">
-    <img src="images/hsctf1.jpg" alt="HSCTF photo 1">
-    <img src="images/hsctf2.jpg" alt="HSCTF photo 2">
-    <img src="images/hsctf3.jpg" alt="HSCTF photo 3">
-    <img src="images/hsctf4.jpg" alt="HSCTF photo 4">
+    <img src="../images/hsctf1.jpg" alt="HSCTF photo 1">
+    <img src="../images/hsctf2.jpg" alt="HSCTF photo 2">
+    <img src="../images/hsctf3.jpg" alt="HSCTF photo 3">
+    <img src="../images/hsctf4.jpg" alt="HSCTF photo 4">
   </div>
 </section>
-
-<style>
-.gallery-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-.gallery-grid img {
-  width: calc(25% - 0.75rem);
-  height: auto;
-  border-radius: 12px;
-  transition: transform 0.3s ease, filter 0.3s ease;
-}
-.gallery-grid img:hover {
-  transform: scale(1.05);
-  filter: brightness(1.2);
-}
-</style>
 
 <section class="section" id="lastyear">
   <div class="cards-grid">
     <div class="card">
       <h2>Last Year’s HSCTF</h2>
-      <p>HSCTF 2025 was a major success seeing students journey into the galaxy and solve space themed problems! The event saw students solving challenges ranging from cryptography, password cracking, log analysis, and more! The top three teams received prizes, and all participants received our limited edition NULLify HSCTF shaker!</p>
+      <p>HSCTF 2025 was a major success seeing students journey into the galaxy and solve space-themed problems. The event saw students solving challenges ranging from cryptography, password cracking, log analysis, and more. The top three teams received prizes, and all participants received our limited edition NULLify HSCTF shaker.</p>
     </div>
     <div class="card">
       <h2>More Details Coming</h2>
       <p>Stay tuned! Here’s what’s coming soon for HSCTF 2026:</p>
       <ul>
         <li>Exact date/time of the event</li>
-        <li>Theme for this year’s competition</li>
+        <li><strong>Theme: Digital Detectives</strong></li>
         <li>Special training challenges for students</li>
         <li>Prizes and recognition for winners</li>
       </ul>
@@ -137,22 +235,22 @@ footer::before {content:''; position:absolute; top:50%; left:50%; width:200px; h
   <div class="faq-bar" id="faqBar">FAQ <span class="faq-arrow" id="faqArrow">&#9660;</span></div>
   <div class="faq-content" id="faqContent">
     <h3>I am new to CTFs, should my students participate?</h3>
-    <p>Absolutely, our challenges are tailored to both students new to cybersecurity, and those with some experience.</p>
+    <p>Absolutely, our challenges are tailored to both students new to cybersecurity and those with some experience.</p>
     <h3>Will food be provided at the event?</h3>
     <p>Yes, breakfast and lunch will be catered to students, as well as snacks!</p>
     <h3>What month timeframe will the CTF be?</h3>
     <p>We are aiming to host HSCTF in Feb 2026.</p>
     <h3>How long will the event be?</h3>
-    <p>The event is estimated to be 8 hours, and take place on a Saturday!</p>
+    <p>The event is estimated to be 8 hours and take place on a Saturday.</p>
     <h3>Will there be prizes?</h3>
     <p>Yes, all students will receive our limited edition swag item, and the top three teams will receive other prizes.</p>
-    <h3>How do I stay updated, and register?</h3>
-    <p>Subscribe to our mailing list above to get updates regarding registration and training materials!</p>
+    <h3>How do I stay updated and register?</h3>
+    <p>Subscribe to our mailing list above to get updates regarding registration and training materials.</p>
   </div>
 </section>
 
 <footer>
-  &copy; 2025 NULLify — University of Nebraska Omaha Cybersecurity Club
+  &copy; 2025 NULLify, University of Nebraska Omaha Cybersecurity Club
 </footer>
 
 <script>
